@@ -21,4 +21,8 @@ public class TicketStatus {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private Status status;
+
+    public TicketStatus(Status status) {
+        this.status = status;
+    }
 }

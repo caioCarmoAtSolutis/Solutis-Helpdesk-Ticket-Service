@@ -21,4 +21,8 @@ public class TicketPriority {
     @Enumerated(EnumType.STRING)
     @Column(name = "PRIORITY")
     private Priority priority;
+
+    public TicketPriority(Priority priority) {
+        this.priority = priority;
+    }
 }

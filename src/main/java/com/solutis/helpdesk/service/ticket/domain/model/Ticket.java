@@ -46,4 +46,13 @@ public class Ticket {
 
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
+
+    public Ticket(TicketData data, TicketPriority priority, TicketCategory category) {
+        this.id = UUID.randomUUID();
+        this.priority = priority;
+        this.category = category;
+        this.status = new TicketStatus(Status.OPEN);
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
+    }
 }

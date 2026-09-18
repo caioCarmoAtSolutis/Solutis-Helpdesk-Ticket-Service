@@ -21,4 +21,8 @@ public class TicketCategory {
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY")
     private Category category;
+
+    public TicketCategory(Category category) {
+        this.category = category;
+    }
 }

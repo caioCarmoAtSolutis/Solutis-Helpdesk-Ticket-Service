@@ -23,14 +23,14 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<DetailedTicketData> createTicket(@Valid @RequestBody TicketData data, UriComponentsBuilder uriComponentsBuilder) {
-        DetailedTicketData createdTicket = ticketService.createTicket();
+        DetailedTicketData createdTicket = ticketService.createTicket(data);
         URI location = uriComponentsBuilder.path("/tickets/{id}").buildAndExpand(createdTicket.id()).toUri();
         return ResponseEntity.created(location).body(createdTicket);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ListTicketData> getTicketById(@PathVariable UUID id) {
-        ListTicketData ticket = ticketService.getTicket(id);
+        ListTicketData ticket = ticketService.getTicketById(id);
         return ResponseEntity.ok(ticket);
     }
 
@@ -42,7 +42,7 @@ public class TicketController {
 
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<Page<ListTicketData>> getTicketsWithSpecificCustomerId(@PageableDefault(size = 10) Pageable pageable, @PathVariable UUID customerId) {
-        Page<ListTicketData> page = ticketService.getTicketsWithSpecificCustomerId(pageable);
+        Page<ListTicketData> page = ticketService.getTicketsWithSpecificCustomerId(pageable, customerId);
         return ResponseEntity.ok(page);
     }
 
