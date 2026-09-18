@@ -12,3 +12,4 @@ public record TicketStatusData(
         this(ticketStatus.getStatus());
     }
 }
+

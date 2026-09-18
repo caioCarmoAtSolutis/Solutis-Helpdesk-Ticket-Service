@@ -12,3 +12,4 @@ public record TicketPriorityData(
         this(ticketPriority.getPriority());
     }
 }
+

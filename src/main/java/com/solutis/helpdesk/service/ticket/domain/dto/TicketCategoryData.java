@@ -12,3 +12,4 @@ public record TicketCategoryData(
         this(ticketCategory.getCategory());
     }
 }
+
