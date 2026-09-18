@@ -29,8 +29,8 @@ public class TicketService {
 
     public DetailedTicketData createTicket(TicketData data) {
         validateCustomer(data.customerId());
-        TicketPriority priority = getPriority(data.priority());
-        TicketCategory category = getCategory(data.category());
+        TicketPriority priority = getPriority(data.priority().priority());
+        TicketCategory category = getCategory(data.category().category());
         Ticket ticket = new Ticket(data, priority, category);
         ticket = ticketRepository.save(ticket);
         return new DetailedTicketData(ticket);

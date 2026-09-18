@@ -1,5 +1,6 @@
 package com.solutis.helpdesk.service.ticket.domain.model;
 
+import com.solutis.helpdesk.service.ticket.domain.dto.TicketData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
