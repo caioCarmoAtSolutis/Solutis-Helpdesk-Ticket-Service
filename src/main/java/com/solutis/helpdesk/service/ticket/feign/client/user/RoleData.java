@@ -4,6 +4,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record RoleData(
         @NotNull
-        Role value
+        Role role
 ) {
 }

@@ -37,7 +37,7 @@ public class UserValidator {
     }
 
     private void validateUserHasRole(UserData user,  Role expectedRole) {
-        if (!Role.CLIENT.equals(user.role().value()))
-            throw new UserHasInvalidRoleException("User with id " +  user.id() + " has role " + user.role().value() + " instead of " + expectedRole + "!");
+        if (!Role.CLIENT.equals(user.role().role()))
+            throw new UserHasInvalidRoleException("User with id " +  user.id() + " has role " + user.role().role() + " instead of " + expectedRole + "!");
     }
 }
