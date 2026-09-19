@@ -2,6 +2,8 @@ package com.solutis.helpdesk.service.ticket.service;
 
 import com.solutis.helpdesk.service.ticket.domain.dto.*;
 import com.solutis.helpdesk.service.ticket.domain.model.*;
+import com.solutis.helpdesk.service.ticket.domain.validation.UserValidator;
+import com.solutis.helpdesk.service.ticket.feign.client.user.Role;
 import com.solutis.helpdesk.service.ticket.repository.TicketCategoryRepository;
 import com.solutis.helpdesk.service.ticket.repository.TicketPriorityRepository;
 import com.solutis.helpdesk.service.ticket.repository.TicketRepository;
@@ -25,6 +27,8 @@ public class TicketService {
     private TicketPriorityRepository ticketPriorityRepository;
     @Autowired
     private TicketStatusRepository ticketStatusRepository;
+    @Autowired
+    private UserValidator userValidator;
 
 
     public DetailedTicketData createTicket(TicketData data) {
@@ -124,8 +128,10 @@ public class TicketService {
     }
 
     private void validateCustomer(UUID customerId) {
+        userValidator.validateUser(customerId, Role.CLIENT);
     }
 
     private void validateTechnician(UUID technicianId) {
+        userValidator.validateUser(technicianId, Role.TECHNICIAN);
     }
 }

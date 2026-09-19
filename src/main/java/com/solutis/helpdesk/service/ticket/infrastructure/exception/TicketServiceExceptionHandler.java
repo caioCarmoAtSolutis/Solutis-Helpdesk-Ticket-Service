@@ -23,4 +23,16 @@ public class TicketServiceExceptionHandler {
         var message = new ExceptionMessage(e.getMessage());
         return ResponseEntity.badRequest().body(message);
     }
+
+    @ExceptionHandler(UserHasInvalidRoleException.class)
+    public ResponseEntity<ExceptionMessage> handleUserHasInvalidRoleException(UserHasInvalidRoleException e) {
+        var message = new ExceptionMessage(e.getMessage());
+        return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler(UserIsInactiveException.class)
+    public ResponseEntity<ExceptionMessage> handleUserIsInactiveException(UserIsInactiveException e) {
+        var message = new ExceptionMessage(e.getMessage());
+        return ResponseEntity.badRequest().body(message);
+    }
 }
