@@ -1,6 +1,7 @@
 package com.solutis.helpdesk.service.ticket.domain.model;
 
 import com.solutis.helpdesk.service.ticket.domain.dto.TicketData;
+import com.solutis.helpdesk.service.ticket.service.TicketService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,13 +49,14 @@ public class Ticket {
     @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    public Ticket(TicketData data, TicketPriority priority, TicketCategory category) {
+    public Ticket(TicketData data, TicketPriority priority, TicketCategory category, TicketStatus status) {
         this.id = UUID.randomUUID();
+        this.customerId = data.customerId();
         this.title = data.title();
         this.description = data.description();
         this.priority = priority;
         this.category = category;
-        this.status = new TicketStatus(Status.OPEN);
+        this.status = status;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
     }
