@@ -37,8 +37,8 @@ public record ListTicketData(
     public ListTicketData(Ticket ticket) {
         this(
                 ticket.getId(),
-                ticket.getCustomerId(),
                 ticket.getTechnicianId(),
+                ticket.getCustomerId(),
                 ticket.getTitle(),
                 ticket.getDescription(),
                 new TicketPriorityData(ticket.getPriority()),
