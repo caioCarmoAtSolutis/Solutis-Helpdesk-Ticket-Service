@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,6 +39,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Customer id is not valid",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PostMapping
     public ResponseEntity<DetailedTicketData> createTicket(@Valid @RequestBody TicketData data, UriComponentsBuilder uriComponentsBuilder) {
         DetailedTicketData createdTicket = ticketService.createTicket(data);
@@ -95,6 +97,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PatchMapping("/{id}/priority")
     public ResponseEntity<DetailedTicketData> changeTicketPriority(@PathVariable UUID id, @Valid @RequestBody TicketPriorityData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
@@ -110,6 +113,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PatchMapping("/{id}/status")
     public ResponseEntity<DetailedTicketData> changeTicketStatus(@PathVariable UUID id, @Valid @RequestBody TicketStatusData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
@@ -125,6 +129,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PatchMapping("/{id}/category")
     public ResponseEntity<DetailedTicketData> changeTicketCategory(@PathVariable UUID id, @Valid @RequestBody TicketCategoryData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
@@ -142,6 +147,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Technician id is not valid",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PatchMapping("/{id}/technician")
     public ResponseEntity<DetailedTicketData> assignTechnician(@PathVariable UUID id, @Valid @RequestBody AssignTechnicianData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
@@ -155,6 +161,7 @@ public class TicketController {
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = DetailedTicketData.class)) }),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @PostMapping("/{id}/close")
     public ResponseEntity<DetailedTicketData> closeTicket(@PathVariable UUID id) {
         DetailedTicketData updatedTicket = ticketService.closeTicket(id);
@@ -167,6 +174,7 @@ public class TicketController {
             @ApiResponse(responseCode = "204", description = "Ticket deleted successfully"),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTicket(@PathVariable UUID id) {
         ticketService.deleteTicket(id);
