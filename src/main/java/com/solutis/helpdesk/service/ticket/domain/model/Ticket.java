@@ -50,6 +50,8 @@ public class Ticket {
 
     public Ticket(TicketData data, TicketPriority priority, TicketCategory category) {
         this.id = UUID.randomUUID();
+        this.title = data.title();
+        this.description = data.description();
         this.priority = priority;
         this.category = category;
         this.status = new TicketStatus(Status.OPEN);
