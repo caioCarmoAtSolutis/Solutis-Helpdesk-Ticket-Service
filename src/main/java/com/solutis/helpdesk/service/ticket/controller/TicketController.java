@@ -3,6 +3,7 @@ package com.solutis.helpdesk.service.ticket.controller;
 
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.ExceptionMessage;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.MethodArgumentNotValidExceptionExceptionMessage;
+import com.solutis.helpdesk.service.ticket.message.TicketMessageSender;
 import com.solutis.helpdesk.service.ticket.service.TicketService;
 import com.solutis.helpdesk.service.ticket.domain.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,9 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private TicketMessageSender ticketMessageSender;
+
     @Tag(name = "Create Ticket")
     @Operation(summary = "Create new Ticket")
     @ApiResponses(value = {
@@ -44,6 +48,7 @@ public class TicketController {
     public ResponseEntity<DetailedTicketData> createTicket(@Valid @RequestBody TicketData data, UriComponentsBuilder uriComponentsBuilder) {
         DetailedTicketData createdTicket = ticketService.createTicket(data);
         URI location = uriComponentsBuilder.path("/tickets/{id}").buildAndExpand(createdTicket.id()).toUri();
+        ticketMessageSender.sendTicketCreatedMessage(createdTicket);
         return ResponseEntity.created(location).body(createdTicket);
     }
 
@@ -117,6 +122,7 @@ public class TicketController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<DetailedTicketData> changeTicketStatus(@PathVariable UUID id, @Valid @RequestBody TicketStatusData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
+        ticketMessageSender.sendTicketStatusChangedMessage(updatedTicket);
         return ResponseEntity.ok(updatedTicket);
     }
 
@@ -151,6 +157,7 @@ public class TicketController {
     @PatchMapping("/{id}/technician")
     public ResponseEntity<DetailedTicketData> assignTechnician(@PathVariable UUID id, @Valid @RequestBody AssignTechnicianData data) {
         DetailedTicketData updatedTicket = ticketService.updatedTicket(id, data);
+        ticketMessageSender.sendTicketAssignedMessage(updatedTicket);
         return ResponseEntity.ok(updatedTicket);
     }
 

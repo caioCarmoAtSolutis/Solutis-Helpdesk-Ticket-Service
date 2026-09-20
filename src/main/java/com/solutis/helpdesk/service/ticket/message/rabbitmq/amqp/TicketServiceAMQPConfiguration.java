@@ -1,4 +1,4 @@
-package com.solutis.helpdesk.service.ticket.amqp;
+package com.solutis.helpdesk.service.ticket.message.rabbitmq.amqp;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
