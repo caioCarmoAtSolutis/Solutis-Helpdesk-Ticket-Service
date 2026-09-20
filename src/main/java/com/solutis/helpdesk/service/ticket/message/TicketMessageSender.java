@@ -1,7 +1,6 @@
 package com.solutis.helpdesk.service.ticket.message;
 
 import com.solutis.helpdesk.service.ticket.domain.dto.DetailedTicketData;
-import com.solutis.helpdesk.service.ticket.domain.model.Ticket;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
