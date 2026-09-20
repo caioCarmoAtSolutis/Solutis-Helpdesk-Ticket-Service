@@ -4,6 +4,7 @@ import com.solutis.helpdesk.service.ticket.domain.dto.*;
 import com.solutis.helpdesk.service.ticket.domain.model.*;
 import com.solutis.helpdesk.service.ticket.domain.validation.UserValidator;
 import com.solutis.helpdesk.service.ticket.feign.client.user.Role;
+import com.solutis.helpdesk.service.ticket.infrastructure.exception.ExceptionMessageBuilder;
 import com.solutis.helpdesk.service.ticket.repository.TicketCategoryRepository;
 import com.solutis.helpdesk.service.ticket.repository.TicketPriorityRepository;
 import com.solutis.helpdesk.service.ticket.repository.TicketRepository;
@@ -102,28 +103,28 @@ public class TicketService {
     private Ticket getTicket(UUID id) {
         Optional<Ticket> optional = ticketRepository.findById(id);
         if (optional.isEmpty())
-            throw new EntityNotFoundException("Ticket with id " + id.toString() + " doesn't exist!");
+            throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().ticketIdNotFountMessage(id.toString()));
         return optional.get();
     }
 
     private TicketPriority getPriority(Priority priority) {
         Optional<TicketPriority> optional = ticketPriorityRepository.findByPriority(priority);
         if (optional.isEmpty())
-            throw new EntityNotFoundException("Priority with value " + priority.toString() + " doesn't exist!");
+            throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().priorityWithValueNotFountMessage(priority));
         return optional.get();
     }
 
     private TicketStatus getStatus(Status status) {
         Optional<TicketStatus> optional = ticketStatusRepository.findByStatus(status);
         if (optional.isEmpty())
-            throw new EntityNotFoundException("Status with value " + status.toString() + " doesn't exist!");
+            throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().statusWithValueNotFountMessage(status));
         return optional.get();
     }
 
     private TicketCategory getCategory(Category category) {
         Optional<TicketCategory> optional = ticketCategoryRepository.findByCategory(category);
         if (optional.isEmpty())
-            throw new EntityNotFoundException("Category with value " + category.toString() + " doesn't exist!");
+            throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().CategoryWithValueNotFountMessage(category));
         return optional.get();
     }
 

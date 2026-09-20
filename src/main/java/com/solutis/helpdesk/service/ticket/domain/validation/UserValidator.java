@@ -3,6 +3,7 @@ package com.solutis.helpdesk.service.ticket.domain.validation;
 import com.solutis.helpdesk.service.ticket.feign.client.user.Role;
 import com.solutis.helpdesk.service.ticket.feign.client.user.UserData;
 import com.solutis.helpdesk.service.ticket.feign.client.user.UserServiceClient;
+import com.solutis.helpdesk.service.ticket.infrastructure.exception.ExceptionMessageBuilder;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.UserHasInvalidRoleException;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.UserIsInactiveException;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,7 +23,7 @@ public class UserValidator {
         UserData user = getUser(customerId);
 
         if (!user.active())
-            throw new UserIsInactiveException("User with id " +  customerId + " is not active!");
+            throw new UserIsInactiveException(ExceptionMessageBuilder.getInstance().userIsInactiveMessage(customerId.toString()));
 
         validateUserHasRole(user, expectedRole);
     }
@@ -31,13 +32,13 @@ public class UserValidator {
         ResponseEntity<UserData> response = userServiceClient.getUserById(userId);
 
         if (HttpStatusCode.valueOf(400).equals(response.getStatusCode()))
-            throw new EntityNotFoundException("User with id " + userId + " not found!");
+            throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().userIdNotFountMessage(userId.toString()));
 
         return response.getBody();
     }
 
     private void validateUserHasRole(UserData user,  Role expectedRole) {
-        if (!Role.CLIENT.equals(user.role().role()))
-            throw new UserHasInvalidRoleException("User with id " +  user.id() + " has role " + user.role().role() + " instead of " + expectedRole + "!");
+        if (!expectedRole.equals(user.role().role()))
+            throw new UserHasInvalidRoleException(ExceptionMessageBuilder.getInstance().userHasInvalidRoleMessage(user, expectedRole));
     }
 }
