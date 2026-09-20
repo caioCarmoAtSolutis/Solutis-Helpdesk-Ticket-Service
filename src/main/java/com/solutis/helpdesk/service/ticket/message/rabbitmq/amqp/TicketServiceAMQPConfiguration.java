@@ -33,16 +33,16 @@ public class TicketServiceAMQPConfiguration {
 
     @Bean
     public Queue createTicketCreatedQueue() {
-        return QueueBuilder.nonDurable(ticketCreatedRoutingkey).build();
+        return QueueBuilder.durable(ticketCreatedRoutingkey).build();
     }
 
     @Bean
     public Queue createTicketAssignedQueue() {
-        return QueueBuilder.nonDurable(ticketAssignedRoutingkey).build();
+        return QueueBuilder.durable(ticketAssignedRoutingkey).build();
     }
 
     @Bean
     public Queue createTicketStatusChangedQueue() {
-        return QueueBuilder.nonDurable(ticketStatusChangedRoutingkey).build();
+        return QueueBuilder.durable(ticketStatusChangedRoutingkey).build();
     }
 }

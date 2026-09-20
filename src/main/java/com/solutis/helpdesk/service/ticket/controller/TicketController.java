@@ -172,6 +172,7 @@ public class TicketController {
     @PostMapping("/{id}/close")
     public ResponseEntity<DetailedTicketData> closeTicket(@PathVariable UUID id) {
         DetailedTicketData updatedTicket = ticketService.closeTicket(id);
+        ticketMessageSender.sendTicketStatusChangedMessage(updatedTicket);
         return ResponseEntity.ok(updatedTicket);
     }
 
