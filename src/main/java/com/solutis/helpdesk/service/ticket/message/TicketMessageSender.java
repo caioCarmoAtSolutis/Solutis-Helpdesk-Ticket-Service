@@ -9,31 +9,27 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TicketMessageSender {
+    @Value("${rabbitmq.ticket.created.routing-key}")
+    private String TICKET_CREATED_ROUTING_KEY;
+
+    @Value("${rabbitmq.ticket.assigned.routing-key}")
+    private String TICKET_ASSIGNED_ROUTING_KEY;
+
+    @Value("${rabbitmq.ticket.status-changed.routing-key}")
+    private String TICKET_STATUS_CHANGED_ROUTING_KEY;
+
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${rabbitmq.ticket.created.routing-key}")
-    private String ticketCreatedRoutingkey;
-
-    @Value("${rabbitmq.ticket.assigned.routing-key}")
-    private String ticketAssignedRoutingkey;
-
-    @Value("${rabbitmq.ticket.status-changed.routing-key}")
-    private String ticketStatusChangedRoutingkey;
-
-    private Message transformTicketToMessage(DetailedTicketData ticket) {
-        return new Message(ticket.toString().getBytes());
-    }
-
     public void sendTicketCreatedMessage(DetailedTicketData ticket) {
-        rabbitTemplate.send(ticketCreatedRoutingkey, transformTicketToMessage(ticket));
+        rabbitTemplate.convertAndSend(TICKET_CREATED_ROUTING_KEY, ticket);
     }
 
     public void sendTicketAssignedMessage(DetailedTicketData ticket) {
-        rabbitTemplate.send(ticketAssignedRoutingkey, transformTicketToMessage(ticket));
+        rabbitTemplate.convertAndSend(TICKET_ASSIGNED_ROUTING_KEY, ticket);
     }
 
     public void sendTicketStatusChangedMessage(DetailedTicketData ticket) {
-        rabbitTemplate.send(ticketStatusChangedRoutingkey, transformTicketToMessage(ticket));
+        rabbitTemplate.convertAndSend(TICKET_STATUS_CHANGED_ROUTING_KEY, ticket);
     }
 }
