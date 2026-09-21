@@ -6,9 +6,9 @@ import com.solutis.helpdesk.service.ticket.feign.client.user.UserServiceClient;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.ExceptionMessageBuilder;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.UserHasInvalidRoleException;
 import com.solutis.helpdesk.service.ticket.infrastructure.exception.UserIsInactiveException;
+import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -29,12 +29,12 @@ public class UserValidator {
     }
 
     private UserData getUser(UUID userId) {
-        ResponseEntity<UserData> response = userServiceClient.getUserById(userId);
-
-        if (HttpStatusCode.valueOf(400).equals(response.getStatusCode()))
+        try {
+            ResponseEntity<UserData> response = userServiceClient.getUserById(userId);
+            return response.getBody();
+        } catch (FeignException ex) {
             throw new EntityNotFoundException(ExceptionMessageBuilder.getInstance().userIdNotFountMessage(userId.toString()));
-
-        return response.getBody();
+        }
     }
 
     private void validateUserHasRole(UserData user,  Role expectedRole) {
