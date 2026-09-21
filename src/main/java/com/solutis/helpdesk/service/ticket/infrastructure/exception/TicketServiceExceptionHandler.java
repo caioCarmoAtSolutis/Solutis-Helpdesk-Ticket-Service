@@ -2,6 +2,7 @@ package com.solutis.helpdesk.service.ticket.infrastructure.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,5 +35,11 @@ public class TicketServiceExceptionHandler {
     public ResponseEntity<ExceptionMessage> handleUserIsInactiveException(UserIsInactiveException e) {
         var message = new ExceptionMessage(e.getMessage());
         return ResponseEntity.badRequest().body(message);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ExceptionMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        var exceptionMessage = new ExceptionMessage(e.getMessage());
+        return ResponseEntity.badRequest().body(exceptionMessage);
     }
 }
