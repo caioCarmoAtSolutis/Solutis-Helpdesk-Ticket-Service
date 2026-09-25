@@ -1,6 +1,7 @@
 package com.solutis.helpdesk.service.ticket.domain.model;
 
 import com.solutis.helpdesk.service.ticket.domain.dto.TicketData;
+import com.solutis.helpdesk.service.ticket.domain.dto.UpdateTicketData;
 import com.solutis.helpdesk.service.ticket.service.TicketService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -59,5 +60,16 @@ public class Ticket {
         this.status = status;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
+    }
+
+    public void update(UpdateTicketData data, TicketPriority priority, TicketStatus status, TicketCategory category) {
+        this.technicianId = data.technicianId();
+        this.customerId = data.customerId();
+        this.title = data.title();
+        this.description = data.description();
+        this.priority = priority;
+        this.status = status;
+        this.category = category;
+        this.updatedAt = LocalDateTime.now();
     }
 }

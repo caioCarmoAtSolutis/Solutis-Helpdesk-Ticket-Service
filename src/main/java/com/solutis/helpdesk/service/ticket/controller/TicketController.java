@@ -94,6 +94,23 @@ public class TicketController {
     }
 
     @Tag(name = "Update Ticket")
+    @Operation(summary = "Update ticket by ticketId")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Updated ticket for specified id",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListTicketData.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid input data provided",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
+            @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
+    @PutMapping("/{id}")
+    public ResponseEntity<DetailedTicketData> updateTicketById(@PathVariable UUID id, @Valid @RequestBody UpdateTicketData data) {
+        DetailedTicketData ticket = ticketService.updateTicket(id, data);
+        ticketMessageSender.sendTicketAssignedMessage(ticket);
+        ticketMessageSender.sendTicketStatusChangedMessage(ticket);
+        return ResponseEntity.ok(ticket);
+    }
+
+    @Tag(name = "Update Ticket")
     @Operation(summary = "Change priority for specific ticket")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Priority changed successfully",

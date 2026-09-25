@@ -56,6 +56,19 @@ public class TicketService {
         return ticketRepository.findAllByCustomerId(pageable, customerId).map(ListTicketData::new);
     }
 
+    public DetailedTicketData updateTicket(UUID id, UpdateTicketData data) {
+        Ticket ticket = getTicket(id);
+        if (!(data.technicianId() == null))
+            validateTechnician(data.technicianId());
+        validateCustomer(data.customerId());
+        TicketPriority priority = getPriority(data.priority().priority());
+        TicketStatus status = getStatus(data.status().status());
+        TicketCategory category = getCategory(data.category().category());
+        ticket.update(data, priority, status, category);
+        ticket = ticketRepository.save(ticket);
+        return new DetailedTicketData(ticket);
+    }
+
     public DetailedTicketData updatedTicket(UUID id, TicketPriorityData data) {
         Ticket ticket = getTicket(id);
         TicketPriority priority = getPriority(data.priority());
