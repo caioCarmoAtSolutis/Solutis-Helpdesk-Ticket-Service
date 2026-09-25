@@ -56,14 +56,14 @@ public class TicketController {
     @Operation(summary = "Get ticket by ticketId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Ticket for specified id",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListTicketData.class)) }),
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = DetailedTicketData.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid input data provided",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Can't find ticket with specified id",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
     @GetMapping("/{id}")
-    public ResponseEntity<ListTicketData> getTicketById(@PathVariable UUID id) {
-        ListTicketData ticket = ticketService.getTicketById(id);
+    public ResponseEntity<DetailedTicketData> getTicketById(@PathVariable UUID id) {
+        DetailedTicketData ticket = ticketService.getTicketById(id);
         return ResponseEntity.ok(ticket);
     }
 
@@ -71,10 +71,10 @@ public class TicketController {
     @Operation(summary = "List all tickets")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List with all tickets",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListTicketData.class)) }) })
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = DetailedTicketData.class)) }) })
     @GetMapping
-    public ResponseEntity<Page<ListTicketData>> getAllTickets(@PageableDefault(size = 10) Pageable pageable) {
-        Page<ListTicketData> page = ticketService.getAllTickets(pageable);
+    public ResponseEntity<Page<DetailedTicketData>> getAllTickets(@PageableDefault(size = 10) Pageable pageable) {
+        Page<DetailedTicketData> page = ticketService.getAllTickets(pageable);
         return ResponseEntity.ok(page);
     }
 
@@ -82,14 +82,14 @@ public class TicketController {
     @Operation(summary = "Get tickets by customer id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of tickets for specified customer id",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ListTicketData.class)) }),
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = DetailedTicketData.class)) }),
             @ApiResponse(responseCode = "400", description = "Invalid input data provided",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MethodArgumentNotValidExceptionExceptionMessage.class)) }),
             @ApiResponse(responseCode = "400", description = "Customer id is not valid",
                     content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ExceptionMessage.class)) }) })
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<Page<ListTicketData>> getTicketsWithSpecificCustomerId(@PageableDefault(size = 10) Pageable pageable, @PathVariable UUID customerId) {
-        Page<ListTicketData> page = ticketService.getTicketsWithSpecificCustomerId(pageable, customerId);
+    public ResponseEntity<Page<DetailedTicketData>> getTicketsWithSpecificCustomerId(@PageableDefault(size = 10) Pageable pageable, @PathVariable UUID customerId) {
+        Page<DetailedTicketData> page = ticketService.getTicketsWithSpecificCustomerId(pageable, customerId);
         return ResponseEntity.ok(page);
     }
 

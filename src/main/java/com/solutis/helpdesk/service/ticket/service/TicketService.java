@@ -42,18 +42,18 @@ public class TicketService {
         return new DetailedTicketData(ticket);
     }
 
-    public ListTicketData getTicketById(UUID id) {
+    public DetailedTicketData getTicketById(UUID id) {
         Ticket ticket = getTicket(id);
-        return new ListTicketData(ticket);
+        return new DetailedTicketData(ticket);
     }
 
-    public Page<ListTicketData> getAllTickets(Pageable pageable) {
-        return ticketRepository.findAll(pageable).map(ListTicketData::new);
+    public Page<DetailedTicketData> getAllTickets(Pageable pageable) {
+        return ticketRepository.findAll(pageable).map(DetailedTicketData::new);
     }
 
-    public Page<ListTicketData> getTicketsWithSpecificCustomerId(Pageable pageable, UUID customerId) {
+    public Page<DetailedTicketData> getTicketsWithSpecificCustomerId(Pageable pageable, UUID customerId) {
         validateCustomer(customerId);
-        return ticketRepository.findAllByCustomerId(pageable, customerId).map(ListTicketData::new);
+        return ticketRepository.findAllByCustomerId(pageable, customerId).map(DetailedTicketData::new);
     }
 
     public DetailedTicketData updateTicket(UUID id, UpdateTicketData data) {
